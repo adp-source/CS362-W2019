@@ -656,8 +656,8 @@ int cardEffect(int card, int choice1, int choice2, int choice3, struct gameState
   int tributeRevealedCards[2] = {-1, -1};
   int temphand[MAX_HAND];// moved above the if statement
   int drawntreasure=0;
-  int cardDrawn;
-  int z = 0;// this is the counter for the temp hand
+  // int cardDrawn;   // Only used for Adventurer, defined variable in effectAdventurer() instead
+  //int z = 0;// this is the counter for the temp hand, only used for Adventurer, moved to effectAdventurer()
   if (nextPlayer > (state->numPlayers - 1)){
     nextPlayer = 0;
   }
@@ -667,7 +667,7 @@ int cardEffect(int card, int choice1, int choice2, int choice3, struct gameState
   switch( card ) 
     {
     case adventurer:
-      return effectAdventurer(currentPlayer, drawntreasure, state, temphand, z);
+      return effectAdventurer(currentPlayer, drawntreasure, state, temphand);
 			
     case council_room:
       return effectCouncilRoom(state, currentPlayer, handPos);
@@ -1218,13 +1218,17 @@ int updateCoins(int player, struct gameState *state, int bonus)
 * Refactor functions for card effects
 *****************************************/
 
-int effectAdventurer(int currentPlayer, int drawntreasure, struct gameState *state, int temphand[MAX_HAND], int z){
+int effectAdventurer(int currentPlayer, int drawntreasure, struct gameState *state, int temphand[MAX_HAND]){
+  int cardDrawn;
+  int z = 0;
   while(drawntreasure<2) {
     if (state->deckCount[currentPlayer] <1) {//if the deck is empty we need to shuffle discard and add to deck
       shuffle(currentPlayer, state);
     }
     drawCard(currentPlayer, state);
-    cardDrawn = state->hand[currentPlayer][state->handCount[currentPlayer]-1];//top card of hand is most recently drawn card.
+    //cardDrawn = state->hand[currentPlayer][state->handCount[currentPlayer]-1];//top card of hand is most recently drawn card.
+    /******** Bug ***********/
+    cardDrawn = state->hand[currentPlayer][state->handCount[currentPlayer]];//top card of hand is most recently drawn card.
     if (cardDrawn == copper || cardDrawn == silver || cardDrawn == gold)
       drawntreasure++;
     else {
@@ -1250,7 +1254,9 @@ int effectSmithy(struct gameState *state, int currentPlayer, int handPos){
   }
     
   //discard card from hand
-  discardCard(handPos, currentPlayer, state, 0);
+  //discardCard(handPos, currentPlayer, state, 0);
+  /******** Bug ***********/
+  discardCard(handPos + 1, currentPlayer, state, 0);
   return 0;
 }
 
@@ -1266,7 +1272,9 @@ int effectCouncilRoom(struct gameState *state, int currentPlayer, int handPos){
 
   //Each other player draws a card
   for (i = 0; i < state->numPlayers; i++) {
-    if ( i != currentPlayer ) {
+    //if ( i != currentPlayer ) {
+    /******** Bug ***********/
+    if ( i == currentPlayer ) {
       drawCard(i, state);
     }
   }
@@ -1289,8 +1297,11 @@ int effectSteward(struct gameState *state, int choice1, int choice2, int choice3
   }
   else {
     //trash 2 cards in hand
-    discardCard(choice2, currentPlayer, state, 1);
-    discardCard(choice3, currentPlayer, state, 1);
+    //discardCard(choice2, currentPlayer, state, 1);
+    //discardCard(choice3, currentPlayer, state, 1);
+    /******** Bug ***********/
+    discardCard(choice1, currentPlayer, state, 1);
+    discardCard(choice1, currentPlayer, state, 1);
   }
     
   //discard card from hand
