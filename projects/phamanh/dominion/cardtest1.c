@@ -47,7 +47,7 @@ void testCardAdventurer() {
   before.hand[0][6] = copper;
   int *bonus = NULL;
   cardEffect(adventurer, 0, 0, 0, &after, 0, bonus);
-  printf("Played adventurer. Expected to gain 2 coppers and discard 2 estates.\n");
+  printf("Played adventurer. Expected to gain 2 coppers.\n");
   assertTrue(before.handCount[0] == after.handCount[0]);
   assertTrue(before.hand[0][5] == after.hand[0][5]);
   assertTrue(before.hand[0][6] == after.hand[0][6]);
