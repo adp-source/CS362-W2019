@@ -35,5 +35,14 @@ player: player.c interface.o
 
 all: playdom player 
 
+randomtests: randomtestadventurer.c randomtestcard1.c randomtestcard2.c dominion.c rngs.c
+	gcc -o randomtestadventurer randomtestadventurer.c dominion.c rngs.c -g -coverage -lm -fpic
+	gcc -o randomtestcard1 randomtestcard1.c dominion.c rngs.c -g -coverage -lm -fpic
+	gcc -o randomtestcard2 randomtestcard2.c dominion.c rngs.c -g -coverage -lm -fpic
+	./randomtestadventurer > randomtestadventurer.out
+	./randomtestcard1 > randomtestcard1.out
+	./randomtestcard2 > randomtestcard2.out
+	gcov dominion.c -b -f
+
 clean:
 	rm -f *.o playdom.exe playdom player player.exe  *.gcov *.gcda *.gcno *.so *.out testDrawCard testDrawCard.exe

@@ -135,6 +135,7 @@ int getWinners(int players[MAX_PLAYERS], struct gameState *state);
 
 int effectAdventurer(int currentPlayer, int drawntreasure, struct gameState *state, int temphand[MAX_HAND]);
 int effectSmithy(struct gameState *state, int currentPlayer, int handPos);
+int effectVillage(struct gameState *state, int currentPlayer, int handPos);
 int effectCouncilRoom(struct gameState *state, int currentPlayer, int handPos);
 int effectSteward(struct gameState *state, int choice1, int choice2, int choice3, int currentPlayer, int handPos); 
 int effectBaron(struct gameState *state, int choice1, int currentPlayer);
