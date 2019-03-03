@@ -45,4 +45,4 @@ randomtests: randomtestadventurer.c randomtestcard1.c randomtestcard2.c dominion
 	gcov dominion.c -b -f
 
 clean:
-	rm -f *.o playdom.exe playdom player player.exe  *.gcov *.gcda *.gcno *.so *.out testDrawCard testDrawCard.exe
+	rm -f *.o playdom.exe playdom player player.exe  *.gcov *.gcda *.gcno *.so *.out testDrawCard testDrawCard.exe randomtestadventurer randomtestcard1 randomtestcard2
